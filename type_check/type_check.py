@@ -49,20 +49,42 @@ def binPreprocess(bin):
         instructions.append(instruction)
     return instructions
 
+def jsonSearch(json_, key_search):
+    result = []
+    if isinstance(json_, dict):
+        for key, value in json_.items():
+            if value in key_search:
+                result.append(json_)
+            if isinstance(value, dict) or isinstance(value, set) or isinstance(value, list):
+                new_result = jsonSearch(value, key_search)
+                result += new_result
+    elif isinstance(json_, set) or isinstance(json_, list):
+        for element in json_:
+            if isinstance(element, dict) or isinstance(element, set) or isinstance(element, list):
+                new_result = jsonSearch(element, key_search)
+                result += new_result
+    return result
+
+def print_result(results):
+    for result in results:
+        src = result["src"]
+        op = result["operator"]
+        left = result["leftExpression"]["typeDescriptions"]["typeString"]
+        right = result["rightExpression"]["typeDescriptions"]["typeString"]
+        return_ = result["typeDescriptions"]["typeString"]
+        print(src, op, left, right, return_)
 
 def main():
     data = loadJson("resources/combined.json")
     sourceMap = data["contracts"]["/sources/test1.sol:MyContract"]["srcmap-runtime"]
     bin = data["contracts"]["/sources/test1.sol:MyContract"]["bin-runtime"]
+    ast = loadJson("resources/test4.sol_json.ast")
     print(bin)
     srcMapFull = sourceMapPreprocess(sourceMap)
     instructions = binPreprocess(bin)
-    print(srcMapFull)
-    print(instructions)
-    print(len(instructions))
     f = open("resources/test1.sol", 'r')
     sourceCode = repr(f.read())
-    print(sourceCode)
-    print(sourceCode[156:162])
+    add_opp = jsonSearch(ast, ["+"])
+    print_result(add_opp)
 
 main()
