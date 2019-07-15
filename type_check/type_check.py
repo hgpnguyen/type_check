@@ -49,12 +49,21 @@ def binPreprocess(bin):
         instructions.append(instruction)
     return instructions
 
+def assign_search(node):
+    if "nodeType" not in node.keys():
+        return False
+    if (node["nodeType"] == "VariableDeclarationStatement" and node["initialValue"] != None):
+            return True
+    elif (node["nodeType"] == "Assignment"):
+        return True
+    return False
+
 def jsonSearch(json_, key_search):
     result = []
     if isinstance(json_, dict):
-        for key, value in json_.items():
-            if value in key_search:
+        if key_search(json_):
                 result.append(json_)
+        for key, value in json_.items():
             if isinstance(value, dict) or isinstance(value, set) or isinstance(value, list):
                 new_result = jsonSearch(value, key_search)
                 result += new_result
@@ -65,26 +74,44 @@ def jsonSearch(json_, key_search):
                 result += new_result
     return result
 
-def print_result(results):
-    for result in results:
-        src = result["src"]
-        op = result["operator"]
-        left = result["leftExpression"]["typeDescriptions"]["typeString"]
-        right = result["rightExpression"]["typeDescriptions"]["typeString"]
-        return_ = result["typeDescriptions"]["typeString"]
-        print(src, op, left, right, return_)
+def scan_Exp(exp, results=[]):
+    if exp == None:
+        return
+    if exp["nodeType"] == "BinaryOperation":
+        scan_Exp(exp["leftExpression"], results)
+        scan_Exp(exp["rightExpression"], results)
+    else:
+        results.append(exp["typeDescriptions"]["typeString"])
+
+
+def print_result(opps):
+    results = []
+    for opp in opps:
+        leftExp = (([opp["leftHandSide"]] if opp["leftHandSide"]["nodeType"] != "TupleExpression" else opp["leftHandSide"]["components"]) 
+                    if opp["nodeType"] == "Assignment" else opp["declarations"])
+        right = opp["rightHandSide"] if opp["nodeType"] == "Assignment" else opp["initialValue"]
+        rightExp = [right] if right["nodeType"] != "TupleExpression" else right["components"]
+        if len(rightExp) != len(leftExp):
+            leftExp = leftExp * len(rightExp)
+        for l, r in zip(leftExp, rightExp):
+            if not l: continue
+            result = [opp["src"]]
+            result.append(l["typeDescriptions"]["typeString"])
+            scan_Exp(r, result)
+            results.append(result)
+    return results
 
 def main():
-    data = loadJson("resources/combined.json")
-    sourceMap = data["contracts"]["/sources/test1.sol:MyContract"]["srcmap-runtime"]
-    bin = data["contracts"]["/sources/test1.sol:MyContract"]["bin-runtime"]
-    ast = loadJson("resources/test4.sol_json.ast")
-    print(bin)
-    srcMapFull = sourceMapPreprocess(sourceMap)
-    instructions = binPreprocess(bin)
+    #data = loadJson("resources/combined.json")
+    #sourceMap = data["contracts"]["/sources/test1.sol:MyContract"]["srcmap-runtime"]
+    #bin = data["contracts"]["/sources/test1.sol:MyContract"]["bin-runtime"]
+    ast = loadJson("resources/test6.sol_json.ast")
+    #print(bin)
+    #srcMapFull = sourceMapPreprocess(sourceMap)
+    #instructions = binPreprocess(bin)
     f = open("resources/test1.sol", 'r')
     sourceCode = repr(f.read())
-    add_opp = jsonSearch(ast, ["+"])
-    print_result(add_opp)
+    add_opp = jsonSearch(ast, assign_search)
+    print(print_result(add_opp))
 
 main()

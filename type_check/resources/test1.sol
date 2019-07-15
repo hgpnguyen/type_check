@@ -1,7 +1,7 @@
 pragma solidity ^0.5.0;
 contract MyContract {
     function add() public pure returns (uint) {
-        uint a = 3;
+        (uint a, uint j, ) = (5, 10, 22);
         uint b = 4;
         uint i = a + b;
         a = b + 5;
