@@ -80,6 +80,11 @@ def scan_Exp(exp, results=[]):
     if exp["nodeType"] == "BinaryOperation":
         scan_Exp(exp["leftExpression"], results)
         scan_Exp(exp["rightExpression"], results)
+    elif exp["nodeType"] == "UnaryOperation":
+        scan_Exp(exp["subExpression"], results)
+    elif exp["nodeType"] == "TupleExpression":
+        for com in exp["components"]:
+            scan_Exp(com, results)
     else:
         results.append(exp["typeDescriptions"]["typeString"])
 
@@ -105,7 +110,7 @@ def main():
     #data = loadJson("resources/combined.json")
     #sourceMap = data["contracts"]["/sources/test1.sol:MyContract"]["srcmap-runtime"]
     #bin = data["contracts"]["/sources/test1.sol:MyContract"]["bin-runtime"]
-    ast = loadJson("resources/test6.sol_json.ast")
+    ast = loadJson("resources/test1.sol_json.ast")
     #print(bin)
     #srcMapFull = sourceMapPreprocess(sourceMap)
     #instructions = binPreprocess(bin)
@@ -114,4 +119,5 @@ def main():
     add_opp = jsonSearch(ast, assign_search)
     print(print_result(add_opp))
 
-main()
+if __name__ == '__main__':
+    main()

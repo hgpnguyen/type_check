@@ -21,6 +21,9 @@
     <EnableUnmanagedDebugging>false</EnableUnmanagedDebugging>
   </PropertyGroup>
   <ItemGroup>
+    <Compile Include="test1.py">
+      <SubType>Code</SubType>
+    </Compile>
     <Compile Include="type_check.py" />
   </ItemGroup>
   <ItemGroup>
