@@ -97,7 +97,7 @@ def print_result(opps):
         right = opp["rightHandSide"] if opp["nodeType"] == "Assignment" else opp["initialValue"]
         rightExp = [right] if right["nodeType"] != "TupleExpression" else right["components"]
         if len(rightExp) != len(leftExp):
-            leftExp = leftExp * len(rightExp)
+            rightExp = len(leftExp) * rightExp
         for l, r in zip(leftExp, rightExp):
             if not l: continue
             result = [opp["src"]]
@@ -110,7 +110,7 @@ def main():
     #data = loadJson("resources/combined.json")
     #sourceMap = data["contracts"]["/sources/test1.sol:MyContract"]["srcmap-runtime"]
     #bin = data["contracts"]["/sources/test1.sol:MyContract"]["bin-runtime"]
-    ast = loadJson("resources/test1.sol_json.ast")
+    ast = loadJson("resources/test6.sol_json.ast")
     #print(bin)
     #srcMapFull = sourceMapPreprocess(sourceMap)
     #instructions = binPreprocess(bin)
