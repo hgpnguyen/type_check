@@ -29,13 +29,6 @@
   <ItemGroup>
     <Folder Include="resources\" />
   </ItemGroup>
-  <ItemGroup>
-    <Content Include="resources\combined.json" />
-    <Content Include="resources\test1.sol" />
-    <Content Include="resources\test1.sol_json.ast" />
-    <Content Include="resources\test2.sol_json.ast" />
-    <Content Include="resources\test3.sol_json.ast" />
-  </ItemGroup>
   <Import Project="$(MSBuildExtensionsPath32)\Microsoft\VisualStudio\v$(VisualStudioVersion)\Python Tools\Microsoft.PythonTools.targets" />
   <!-- Uncomment the CoreCompile target to enable the Build command in
        Visual Studio and specify your pre- and post-build commands in
