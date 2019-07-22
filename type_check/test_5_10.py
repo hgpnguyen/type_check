@@ -2,13 +2,12 @@ import unittest
 from type_check import *
 
 
-class Test_test1(unittest.TestCase):
+class Test_test_5_10(unittest.TestCase):
     def test_1(self):
         ast = loadJson("resources/5_0_10/test1.sol_json.ast")
         add_opp = jsonSearch(ast, variable_search)
         expected = [[7, 'a', 'uint256'], [9, 'j', 'uint256'], [16, 'b', 'uint256'], [20, 'i', 'uint256']] 
         self.assertEqual(get_var_Type(add_opp), expected)
-        return;
 
     def test_2(self):
         ast = loadJson("resources/5_0_10/test2.sol_json.ast")
@@ -16,7 +15,6 @@ class Test_test1(unittest.TestCase):
         expected = [[4, 'a', 'uint256'], [6, 'b', 'uint256'], [8, 'c', 'uint256'], [22, 'a', 'uint256'], 
                     [26, 'b', 'uint256'], [30, 'j', 'uint256'], [60, 'c', 'uint256'], [62, 'd', 'uint256']]
         self.assertEqual(get_var_Type(add_opp), expected)
-        return;
 
     def test_3(self):
         ast = loadJson("resources/5_0_10/test3.sol_json.ast")
