@@ -1,10 +1,7 @@
 id,name,type
-3,owner,address payable
-5,x,uint256
 7,a,uint256
-18,b,uint256
-32,contractA,contract A
-38,i,uint256
-41,f,int256
-44,g,int256
-48,len,uint256
+9,j,uint256
+16,b,uint256
+20,i,uint256
+37,d,uint256
+40,f,int8

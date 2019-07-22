@@ -24,6 +24,9 @@
     <Compile Include="test1.py">
       <SubType>Code</SubType>
     </Compile>
+    <Compile Include="test_4_24.py">
+      <SubType>Code</SubType>
+    </Compile>
     <Compile Include="type_check.py" />
   </ItemGroup>
   <ItemGroup>
