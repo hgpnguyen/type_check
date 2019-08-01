@@ -48,7 +48,7 @@ def output_csv(results):
 
 
 def main():
-    ast = loadJson("resources/0_4_24/test8.sol_json.ast")
+    ast = loadJson("resources/5_0_10/test8.sol_json.ast")
     nodes = jsonSearch(ast, variable_search)
     var_types = get_var_Type(nodes)
     print(var_types)

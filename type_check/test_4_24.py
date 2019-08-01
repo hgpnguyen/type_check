@@ -64,5 +64,12 @@ class Test_test_4_24(unittest.TestCase):
                     [20, 'i', 'uint256'], [37, 'd', 'uint256'], [40, 'f', 'int8']]
         self.assertEqual(get_var_Type(add_opp), expected)
 
+    def test_9_struct(self):
+        ast = loadJson("resources/0_4_24/test9.sol_json.ast")
+        add_opp = jsonSearch(ast, variable_search)
+        expected = [[4, 'contents', 'uint256[]'], [6, 'moreInfo', 'uint256'], [9, 's', 'struct MyContract.StructType'], 
+                    [15, 'i', 'uint256'], [18, 'f', 'int256'], [21, 'g', 'int256'], [25, 'len', 'uint256']]
+        self.assertEqual(get_var_Type(add_opp), expected)
+
 if __name__ == '__main__':
     unittest.main()

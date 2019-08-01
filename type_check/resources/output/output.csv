@@ -1,7 +1,8 @@
 id,name,type
-7,a,uint256
-9,j,uint256
-16,b,uint256
-20,i,uint256
-37,d,uint256
-40,f,int8
+4,contents,uint256[]
+6,moreInfo,uint256
+9,s,struct MyContract.StructType
+15,i,uint256
+18,f,int256
+21,g,int256
+25,len,uint256
